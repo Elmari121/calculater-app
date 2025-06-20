@@ -1,70 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculater</title>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <style>
+    .calculator {
+      width: 220px;
+      margin: 50px auto;
+      border: 2px solid #333;
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #inputbox {
+      width: 100%;
+      font-size: 2em;
+      padding: 10px;
+      text-align: right;
+      box-sizing: border-box;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      width: 25%;
+      height: 60px;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      font-size: 1.5em;
+      border: 1px solid #ccc;
+      user-select: none;
+    }
+
+    .digit-btn {
+      background-color: #f0f0f0;
+    }
+
+    .operator-btn {
+      background-color: #f9c74f;
+    }
+
+    .ac-btn {
+      background-color: #f94144;
+      color: white;
+    }
+
+    .equal-btn {
+      background-color: #43aa8b;
+      color: white;
+      font-weight: bold;
+    }
+
+    td:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-  <table border="1"> 
-    <tr>
-        <td colspan="4">
-            <input type="text" id="inputbox" value="0"/>
-        </td>
-    </tr>
-    <tr>
-        <td onclick="digitBtnPressed(7)">7</td>
-        <td onclick="digitBtnPressed(8)">8</td>
-        <td onclick="digitBtnPressed(9)">9</td>
-        <td onclick="operatorBtnPressed(operator)('*')">x</td>
-    </tr>
-<tr>
-        <td onclick="digitBtnPressed(4)">4</td>
-        <td onclick="digitBtnPressed(5)">5</td>
-        <td onclick="digitBtnPressed(6)" >6</td>
-        <td  onclick="operatorBtnPressed(operator)('-')">-</td>
-    </tr>
-<tr>
-        <td onclick="digitBtnPressed(1)">1</td>
-        <td onclick="digitBtnPressed(2)" >2</td>
-        <td onclick="digitBtnPressed(3)" >3</td>
-        <td  onclick="operatorBtnPressed(operator)('+')">+</td>
-    </tr>
-    <tr>
-    <td colspan="2" onclick="digitBtnPressed(0)">0</td>
-    <td onclick="btnACPressed()">AC</td>
-        <td  onclick="operatorBtnPressed(operator)('/')">/</td>
-    </tr>
-   <tr>
-        <td colspan="4" >=</td>
-   </tr> 
-    </table>
-    <script>
-        let newline = true;
-let value;
-let currentOperator;
 
-function digitBtnPressed(button){
-    if (newline){ 
-        document.getElementById("inputbox").value = button; 
-        newline = false;
-    }
-    else{
-        let currentValue = document.getElementById("inputbox").value;
-        document.getElementById("inputbox").value = currentValue + button;
-    }
-}
-function btnACPressed(){
-    document.getElementById("inputbox").value = "0";
-    newline = true;
-}
-function operatorBtnPressed(operator){
-    currentOperator = operator;
-    value1=parseInt(document.getElementById("inputbox").value);
-newline = true;
-    
+<div class="calculator">
+  <table>
+    <tr>
+      <td colspan="4"><input type="text" id="inputbox" value="" readonly></td>
+    </tr>
+    <tr>
+      <td class="digit-btn" onclick="appendValue('7')">7</td>
+      <td class="digit-btn" onclick="appendValue('8')">8</td>
+      <td class="digit-btn" onclick="appendValue('9')">9</td>
+      <td class="operator-btn" onclick="appendValue('*')">×</td>
+    </tr>
+    <tr>
+      <td class="digit-btn" onclick="appendValue('4')">4</td>
+      <td class="digit-btn" onclick="appendValue('5')">5</td>
+      <td class="digit-btn" onclick="appendValue('6')">6</td>
+      <td class="operator-btn" onclick="appendValue('-')">−</td>
+    </tr>
+    <tr>
+      <td class="digit-btn" onclick="appendValue('1')">1</td>
+      <td class="digit-btn" onclick="appendValue('2')">2</td>
+      <td class="digit-btn" onclick="appendValue('3')">3</td>
+      <td class="operator-btn" onclick="appendValue('+')">+</td>
+    </tr>
+    <tr>
+      <td colspan="2" class="digit-btn" onclick="appendValue('0')">0</td>
+      <td class="ac-btn" onclick="clearInput()">AC</td>
+      <td class="operator-btn" onclick="appendValue('/')">÷</td>
+    </tr>
+    <tr>
+      <td colspan="4" class="equal-btn" onclick="calculateResult()">=</td>
+    </tr>
+  </table>
+</div>
 
-}
-    </script>
+<script>
+  const inputBox = document.getElementById('inputbox');
+
+  function appendValue(value) {
+    inputBox.value += value;
+  }
+
+  function clearInput() {
+    inputBox.value = '';
+  }
+
+  function calculateResult() {
+    try {
+      const expression = inputBox.value.replace(/×/g, '*').replace(/÷/g, '/');
+      const result = eval(expression);
+      inputBox.value = result;
+    } catch (e) {
+      inputBox.value = 'Error';
+    }
+  }
+</script>
+
 </body>
 </html>
